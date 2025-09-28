@@ -1,125 +1,81 @@
-🏋️ Gym Management System (Spring Boot + MongoDB)
+# 🏋️ Gym Management System : Member & Attendance Tracker  
 
-A RESTful Gym Management System built with Spring Boot and MongoDB.
-It helps manage members and their attendance records, with support for flexible date formats, cascading deletes, and clean error handling.
+This project is a **Gym Management System** built with **Spring Boot** and **MongoDB**.  
+It provides REST APIs to manage **members** and their **attendance records**, supporting flexible date formats, cascading deletes, and robust error handling.  
 
-✨ Features
+---
 
-👤 Member Management → Add, update, view, and delete members
+## ✨ Features  
 
-📝 Attendance Tracking → Mark & fetch attendance with multiple date formats
+1. **Member Management**  
+   - Add, update, view, and delete members  
+   - Cascade delete → removing a member also deletes their attendance  
 
-🔄 Cascade Delete → Deleting a member removes all their attendance records
+2. **Attendance Tracking**  
+   - Mark daily attendance (with optional custom date)  
+   - Fetch attendance history by member or by date  
+   - Supports multiple date formats:  
+     `yyyy-MM-dd`, `dd-MM-yyyy`, `MM/dd/yyyy`, `dd/MM/yyyy`, `yyyy/MM/dd`  
 
-📅 Flexible Dates → Supports yyyy-MM-dd, dd-MM-yyyy, MM/dd/yyyy, dd/MM/yyyy, yyyy/MM/dd
+3. **CRUD Operations**  
+   - Secure and structured APIs  
+   - Proper error messages and validations  
 
-⚡ Robust APIs → Clean error messages & easy integration
+4. **Data Cleanup**  
+   - Option to delete all members and attendance in one go  
 
-🛠️ Tech Stack
+---
 
-Java 17+
+## 🛠️ Development Stages  
 
-Spring Boot 3.x
+**Stage 1 → Project Setup, Models, CRUD for Members**  
+- Setup Spring Boot project with MongoDB  
+- Create `Member` and `Attendance` models  
+- Implement CRUD operations for members  
 
-MongoDB
+**Stage 2 → Attendance APIs with Date Handling**  
+- Mark attendance for a member (default = today)  
+- Parse multiple date formats for flexibility  
+- Fetch attendance by date and member  
 
-Spring Data MongoDB
+**Stage 3 → Cascade Delete & Cleanup**  
+- Delete member → auto delete all related attendance  
+- Delete all members → auto cleanup all attendance  
 
-Lombok
+**Stage 4 → Enhancements**  
+- Robust exception handling  
+- Consistent API responses  
+- Ready-to-import Postman Collection for testing  
 
-📂 Project Structure
-src/main/java/com/gym/
-│── controller/     # REST Controllers
-│── model/          # Member & Attendance Entities
-│── repository/     # MongoDB Repositories
-│── service/        # Business Logic
-│── exception/      # Custom Exceptions
+---
 
-🔑 API Endpoints
-👤 Members API
-Method	Endpoint	Description
-POST	/api/members	Create a new member
-GET	/api/members	Get all members
-GET	/api/members/{id}	Get member by ID
-PUT	/api/members/{id}	Update member
-DELETE	/api/members/{id}	Delete member + related attendance
-DELETE	/api/members/all	Delete all members + all attendance
-📝 Attendance API
-Method	Endpoint	Description
-POST	/api/attendance/mark/{memberId}?date=dd-MM-yyyy	Mark attendance for a member (custom date optional)
-GET	/api/attendance/member/{memberId}	Get all attendance records of a member
-GET	/api/attendance/member/{memberId}/date/{date}	Get attendance of a member by date (flexible formats)
-DELETE	/api/attendance/{id}	Delete an attendance record
-📬 Example API Usage (Postman)
-➕ Create Member
+## 🔑 API Endpoints  
 
-Request
+### 👤 Members API  
+| Method | Endpoint              | Description                              |
+|--------|-----------------------|------------------------------------------|
+| POST   | `/api/members`        | Create a new member                      |
+| GET    | `/api/members`        | Get all members                          |
+| GET    | `/api/members/{id}`   | Get member by ID                         |
+| PUT    | `/api/members/{id}`   | Update member                            |
+| DELETE | `/api/members/{id}`   | Delete member + related attendance       |
+| DELETE | `/api/members/all`    | Delete all members + all attendance      |
 
-POST /api/members
-Content-Type: application/json
+### 📝 Attendance API  
+| Method | Endpoint                                        | Description                              |
+|--------|------------------------------------------------|------------------------------------------|
+| POST   | `/api/attendance/mark/{memberId}?date=dd-MM-yyyy` | Mark attendance (default today / custom date) |
+| GET    | `/api/attendance/member/{memberId}`            | Get all attendance of a member           |
+| GET    | `/api/attendance/member/{memberId}/date/{date}` | Get attendance by date (multiple formats)|
+| DELETE | `/api/attendance/{id}`                         | Delete attendance record                 |
 
-{
-  "name": "Abhay Kekre",
-  "age": 23,
-  "gender": "Male",
-  "membershipType": "Premium"
-}
-
-
-Response
-
-{
-  "id": "651e2f1a7e3b4f00123abcd4",
-  "name": "Abhay Kekre",
-  "age": 23,
-  "gender": "Male",
-  "membershipType": "Premium"
-}
-
-📝 Mark Attendance
-
-Request
-
-POST /api/attendance/mark/651e2f1a7e3b4f00123abcd4?date=27-09-2025
+---
 
 
-Response
+## 🚀 Setup and Installation
 
-{
-  "id": "651e30577e3b4f00123abcd9",
-  "member": {
-    "id": "651e2f1a7e3b4f00123abcd4",
-    "name": "Abhay Kekre",
-    "age": 23,
-    "gender": "Male",
-    "membershipType": "Premium"
-  },
-  "date": "2025-09-27"
-}
-
-⚡ How to Run Locally
-
-Clone the repository
-
-git clone https://github.com/your-username/gym-management-system.git
-cd gym-management-system
+### 1. Clone the Repository
+```bash
+git clone https://github.com/Abhaykekre/fitnest.git
 
 
-Configure MongoDB in application.properties
-Example:
-
-spring.data.mongodb.uri=mongodb://localhost:27017/gymdb
-
-
-Build & Run
-
-mvn spring-boot:run
-
-
-Test APIs using Postman or browser at
-
-http://localhost:8080/api
-
-📜 License
-
-This project is licensed under the MIT License.
